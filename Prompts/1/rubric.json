@@ -1,0 +1,192 @@
+[
+  {
+    "criterion": "Uses only solid color primitives for player, platforms, and collectables, and includes no Sprite2D nodes or textures.",
+    "score": 12,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Inspect the scene trees and resources for Sprite2D nodes and Texture2D usage, and confirm visuals are ColorRect or simple draw nodes.",
+      "assets": [],
+      "explanation": "This keeps the demo focused on mechanics and avoids art dependencies that can mask engine evaluation issues."
+    }
+  },
+  {
+    "criterion": "Includes 2 to 3 platform StaticBody2D nodes above ground and 2 to 3 collectable Area2D instances in platformer.tscn.",
+    "score": 13,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Open platformer.tscn and count platform StaticBody2D nodes that are not the ground, and count collectable instances.",
+      "assets": [],
+      "explanation": "A small but nontrivial layout is needed to validate jumping, collision, and pickup flow."
+    }
+  },
+  {
+    "criterion": "Contains no unused variables, functions, or scripts that are not referenced by any scene or code path.",
+    "score": 6,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Search the project for unused scripts and unreferenced functions, and confirm no orphan scripts exist in the file system.",
+      "assets": [],
+      "explanation": "Dead code increases maintenance cost and obscures the evaluation of core mechanics and code quality."
+    }
+  },
+  {
+    "criterion": "Places platforms and collectables so each is reachable from the player spawn using the provided move and double jump.",
+    "score": 18,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Play from the spawn and verify each platform and each collectable can be reached without editor repositioning or debug tools.",
+      "assets": [],
+      "explanation": "Reachable layout is required to validate movement, jumping, and scoring in a realistic gameplay loop."
+    }
+  },
+  {
+    "criterion": "Keeps player logic in player.gd, collectable logic in collectable.gd, UI updates in ui.gd, and level setup in platformer.gd.",
+    "score": 7,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Open each script and confirm movement and jumping are only in player.gd, scoring and UI text are only in ui.gd, and pickup logic is only in collectable.gd.",
+      "assets": [],
+      "explanation": "Separation of concerns improves readability and makes the engine evaluation easier to review and extend."
+    }
+  },
+  {
+    "criterion": "Uses snake_case for variables and functions, and uses clear names like jump_count, max_jumps, and score.",
+    "score": 6,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Scan scripts for naming style consistency and confirm key gameplay variables are self describing without comments.",
+      "assets": [],
+      "explanation": "Consistent naming reduces review time and prevents logic mistakes during iteration."
+    }
+  },
+  {
+    "criterion": "Updates the score Label immediately when a collectable is picked up, without requiring a scene reload.",
+    "score": 10,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Collect an item and confirm the Label text changes on the same frame or within the same second without restarting.",
+      "assets": [],
+      "explanation": "Immediate feedback is essential to confirm the scoring system and UI binding work correctly."
+    }
+  },
+  {
+    "criterion": "Uses a CanvasLayer with a Label anchored top left that displays the current score text.",
+    "score": 12,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Run the scene and confirm the Label is visible near the top left and remains fixed while the camera or player moves.",
+      "assets": [],
+      "explanation": "A stable HUD is required to validate score updates during gameplay."
+    }
+  },
+  {
+    "criterion": "Increments the score value by exactly 1 for each collectable pickup event.",
+    "score": 10,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Pick up multiple collectables and confirm the score increases by 1 per item with no double counting.",
+      "assets": [],
+      "explanation": "Accurate scoring is a core mechanic and must be deterministic for testing."
+    }
+  },
+  {
+    "criterion": "Implements each collectable as an Area2D with a CollisionShape2D, and removes it immediately on player overlap.",
+    "score": 15,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Inspect collectable.tscn for Area2D plus CollisionShape2D, then run and confirm the node is freed or hidden on contact.",
+      "assets": [],
+      "explanation": "Correct collision setup and immediate removal prevent repeated triggers and ensure consistent scoring."
+    }
+  },
+  {
+    "criterion": "Prevents the player from passing through StaticBody2D ground or platforms during repeated movement and jumps.",
+    "score": 12,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Hold A or D while jumping repeatedly for 30 seconds and confirm the player never tunnels through colliders.",
+      "assets": [],
+      "explanation": "Collision reliability is fundamental for a platformer and validates CharacterBody2D configuration."
+    }
+  },
+  {
+    "criterion": "Resets the available extra jump to 1 when the player becomes grounded on any platform or ground.",
+    "score": 18,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Use two jumps, land, then verify two jumps are available again, including after landing on floating platforms.",
+      "assets": [],
+      "explanation": "Ground detection and jump state reset are required for consistent double jump behavior."
+    }
+  },
+  {
+    "criterion": "Allows exactly two jumps before landing, the third jump input while airborne does not change vertical velocity.",
+    "score": 18,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Jump, jump again mid air, then press jump a third time and confirm the player does not gain upward speed.",
+      "assets": [],
+      "explanation": "This is a core mechanic and must be deterministic to evaluate input handling and state logic."
+    }
+  },
+  {
+    "criterion": "Triggers jump on W and Space inputs, and registers each press once without missed or repeated jumps.",
+    "score": 17,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Press W and Space repeatedly and confirm each press triggers at most one jump when allowed, and never fails when grounded.",
+      "assets": [],
+      "explanation": "Reliable input mapping is essential for playability and for validating the engine evaluation goals."
+    }
+  },
+  {
+    "criterion": "Moves the player left with A and right with D at a consistent speed that does not vary with frame rate.",
+    "score": 17,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Hold A or D and confirm movement speed appears constant, then toggle VSync or FPS and confirm behavior remains consistent.",
+      "assets": [],
+      "explanation": "Consistent movement is required for platforming and indicates correct use of delta and physics processing."
+    }
+  },
+  {
+    "criterion": "Uses a CharacterBody2D with a RectangleShape2D collision and a visible square ColorRect or Polygon2D for visuals.",
+    "score": 18,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Inspect player.tscn and confirm CharacterBody2D plus CollisionShape2D with RectangleShape2D, and confirm a visible square is rendered.",
+      "assets": [],
+      "explanation": "A simple square avatar keeps the evaluation focused on mechanics rather than art setup."
+    }
+  },
+  {
+    "criterion": "Implements ground and each platform as StaticBody2D with a CollisionShape2D child that matches its visible shape.",
+    "score": 15,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Inspect platformer.tscn and confirm each StaticBody2D has a CollisionShape2D, and the collision bounds align with the platform visuals.",
+      "assets": [],
+      "explanation": "Correct static collisions are required for stable movement, landing detection, and jump reset behavior."
+    }
+  },
+  {
+    "criterion": "Uses platformer.tscn, player.tscn, collectable.tscn, ui.tscn, and matching script names as specified in the prompt.",
+    "score": 8,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Check the project file system and confirm each required scene and script exists with the exact filenames requested.",
+      "assets": [],
+      "explanation": "Consistent naming ensures the deliverable is easy to review, run, and integrate into a larger project."
+    }
+  },
+  {
+    "criterion": "Runs in Godot 4.5 with zero errors and zero warnings in the debugger output during play.",
+    "score": 20,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Open the project in Godot 4.5, run the main scene, and confirm the debugger shows no errors or warnings.",
+      "assets": [],
+      "explanation": "A clean run is a baseline professional standard and is critical for evaluating engine suitability."
+    }
+  }
+]
