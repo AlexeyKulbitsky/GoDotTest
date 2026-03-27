@@ -1,18 +1,16 @@
-[gd_scene load_steps=8 format=3 uid="uid://ca7rycjigw1hg"]
+[gd_scene load_steps=10 format=3 uid="uid://ca7rycjigw1hg"]
 
 [ext_resource type="Script" uid="uid://cmqx2bu4jf4xl" path="res://scripts/platformer.gd" id="1_xxtnn"]
 [ext_resource type="PackedScene" uid="uid://bfbe1o8sguw0y" path="res://scenes/ui.tscn" id="2_85uu4"]
 [ext_resource type="PackedScene" uid="uid://du2g430hqsqag" path="res://scenes/player.tscn" id="2_j2uy2"]
 [ext_resource type="PackedScene" uid="uid://bcpdrxglolmgl" path="res://scenes/collectable.tscn" id="4_nd818"]
+[ext_resource type="PackedScene" uid="uid://mgk3n586b1n" path="res://scenes/platform_static.tscn" id="5_static"]
+[ext_resource type="PackedScene" uid="uid://bh47bewqiai2c" path="res://scenes/platform_lift.tscn" id="6_lift"]
+[ext_resource type="PackedScene" path="res://scenes/platform_slide.tscn" id="7_slide"]
+[ext_resource type="PackedScene" path="res://scenes/platform_catapult.tscn" id="8_catapult"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j2uy2"]
 size = Vector2(1083, 150)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_85uu4"]
-size = Vector2(374, 51)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_nd818"]
-size = Vector2(374, 48)
 
 [node name="Platformer" type="Node2D"]
 script = ExtResource("1_xxtnn")
@@ -33,33 +31,25 @@ offset_right = 404.0
 offset_bottom = 126.0
 color = Color(0.12156863, 0.43529412, 0.16078432, 1)
 
-[node name="Platform2" type="StaticBody2D" parent="."]
-position = Vector2(1044, 341)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Platform2"]
-position = Vector2(1, -0.5)
-shape = SubResource("RectangleShape2D_85uu4")
-
-[node name="ColorRect" type="ColorRect" parent="Platform2"]
-offset_left = -187.0
-offset_top = -25.0
-offset_right = 188.0
-offset_bottom = 25.0
-color = Color(0.00010444373, 0.28967062, 0.85352814, 1)
-
-[node name="Platform1" type="StaticBody2D" parent="."]
+[node name="Platform1" parent="." instance=ExtResource("5_static")]
 position = Vector2(575, 465)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Platform1"]
-position = Vector2(1, -1)
-shape = SubResource("RectangleShape2D_nd818")
+[node name="Platform2" parent="." instance=ExtResource("5_static")]
+position = Vector2(1044, 341)
 
-[node name="ColorRect" type="ColorRect" parent="Platform1"]
-offset_left = -187.0
-offset_top = -25.0
-offset_right = 188.0
-offset_bottom = 25.0
-color = Color(0.00010444373, 0.28967062, 0.85352814, 1)
+[node name="PlatformCatapult" parent="." instance=ExtResource("8_catapult")]
+position = Vector2(500, 180)
+
+[node name="PlatformSlide" parent="." instance=ExtResource("7_slide")]
+position = Vector2(700, -250)
+travel_distance = 300.0
+speed = 120.0
+
+[node name="PlatformLift" parent="." instance=ExtResource("6_lift")]
+position = Vector2(350, -430)
+travel_distance = 400.0
+return_delay = 3.0
+speed = 150.0
 
 [node name="CharacterBody2D" parent="." instance=ExtResource("2_j2uy2")]
 position = Vector2(120, 570)
@@ -69,3 +59,12 @@ position = Vector2(456, 402)
 
 [node name="Area2D2" parent="." instance=ExtResource("4_nd818")]
 position = Vector2(926, 279)
+
+[node name="CatapultCollectable" parent="." instance=ExtResource("4_nd818")]
+position = Vector2(600, 110)
+
+[node name="SlideCollectable" parent="." instance=ExtResource("4_nd818")]
+position = Vector2(850, -310)
+
+[node name="LiftCollectable" parent="." instance=ExtResource("4_nd818")]
+position = Vector2(400, -780)

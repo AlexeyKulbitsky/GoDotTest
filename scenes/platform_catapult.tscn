@@ -1,6 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://bh47bewqiai2c"]
+[gd_scene load_steps=4 format=3]
 
-[ext_resource type="Script" path="res://scripts/platform_lift.gd" id="1_lift"]
+[ext_resource type="Script" path="res://scripts/platform_catapult.gd" id="1_catapult"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(374, 48)
@@ -8,8 +8,8 @@ size = Vector2(374, 48)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_area"]
 size = Vector2(350, 10)
 
-[node name="PlatformLift" type="AnimatableBody2D"]
-script = ExtResource("1_lift")
+[node name="PlatformCatapult" type="StaticBody2D"]
+script = ExtResource("1_catapult")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -1)
@@ -20,7 +20,7 @@ offset_left = -187.0
 offset_top = -25.0
 offset_right = 188.0
 offset_bottom = 25.0
-color = Color(0.85, 0.55, 0.1, 1)
+color = Color(0.85, 0.15, 0.1, 1)
 
 [node name="DetectionArea" type="Area2D" parent="."]
 

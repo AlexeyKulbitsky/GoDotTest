@@ -1,11 +1,36 @@
-extends StaticBody2D
+extends AnimatableBody2D
 
+@export var travel_distance: float = 300.0
+@export var return_delay: float = 2.0
+@export var speed: float = 100.0
 
-# Called when the node enters the scene tree for the first time.
+var _start_y: float
+var _moving_up := false
+var _moving_down := false
+var _waiting := false
+
 func _ready() -> void:
-	pass # Replace with function body.
+	_start_y = position.y
 
+func _physics_process(delta: float) -> void:
+	if _moving_up:
+		position.y -= speed * delta
+		if position.y <= _start_y - travel_distance:
+			position.y = _start_y - travel_distance
+			_moving_up = false
+			_start_wait()
+	elif _moving_down:
+		position.y += speed * delta
+		if position.y >= _start_y:
+			position.y = _start_y
+			_moving_down = false
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+func _on_detection_area_body_entered(body: Node2D) -> void:
+	if body is CharacterBody2D and not _moving_up and not _moving_down and not _waiting:
+		_moving_up = true
+
+func _start_wait() -> void:
+	_waiting = true
+	await get_tree().create_timer(return_delay).timeout
+	_waiting = false
+	_moving_down = true

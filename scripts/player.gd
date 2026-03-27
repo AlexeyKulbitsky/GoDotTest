@@ -12,12 +12,16 @@ func _physics_process(delta: float) -> void:
 		velocity.y += GRAVITY * delta
 	else:
 		jumps_remaining = MAX_JUMPS
-		
+
 	if Input.is_action_just_pressed("jump") and jumps_remaining > 0:
 		velocity.y = JUMP_VELOCITY
 		jumps_remaining -= 1
-		
+
 	var direction = Input.get_axis("move_left", "move_right")
 	velocity.x = direction * SPEED
-		
+
 	move_and_slide()
+
+func apply_catapult_launch(force: float) -> void:
+	velocity.y = force
+	jumps_remaining = MAX_JUMPS - 1

@@ -1,0 +1,132 @@
+[
+  {
+    "criterion": "Lift returns after a set time and stops after traveling a set distance",
+    "score": 16,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "In Godot, trigger the lift, confirm it stops at the configured travel distance, then returns after the configured wait time.",
+      "assets": [],
+      "explanation": "This verifies the lift meets the core gameplay timing and distance behavior needed for predictable level design."
+    }
+  },
+  {
+    "criterion": "Horizontal platform travels between two points",
+    "score": 16,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "In the editor, set endpoints, run the scene, and confirm the platform reverses at each endpoint repeatedly.",
+      "assets": [],
+      "explanation": "Clear endpoint based motion is required so designers can place reliable moving hazards and traversal aids."
+    }
+  },
+  {
+    "criterion": "Score UI remains fixed on screen regardless of camera position",
+    "score": 18,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Run the level, move the player vertically, confirm the score UI stays in the same screen position. Verify it is not a child of the world camera.",
+      "assets": [],
+      "explanation": "A fixed HUD is a core usability expectation, it must not drift with world movement or the score becomes hard to read."
+    }
+  },
+  {
+    "criterion": "Level tall enough for camera scrolling, platforms may be spread vertically if needed",
+    "score": 12,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Play from spawn to the highest new platform, confirm the camera scrolls upward by at least 2 viewport heights. Use the remote inspector to compare Camera2D global position.",
+      "assets": [],
+      "explanation": "The camera work is not meaningfully testable unless the level has enough vertical space to demonstrate scrolling and smoothing."
+    }
+  },
+  {
+    "criterion": "Camera2D added to player, follows player, zoomed out, smoothing enabled",
+    "score": 20,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Open the player scene, confirm a Camera2D exists, is current, has position smoothing enabled, and Zoom.x and Zoom.y are both under 1.0. Play and confirm the camera tracks the player.",
+      "assets": [],
+      "explanation": "A player attached camera with smoothing and appropriate zoom is required for readable platforming and to showcase the vertical level flow."
+    }
+  },
+  {
+    "criterion": "One instance of each new platform type placed in the level with vertical flow and a collectable near each",
+    "score": 17,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Open platformer.tscn, confirm exactly one instance of each new platform scene exists. Measure in the 2D editor that a collectable is within 256 px of each platform.",
+      "assets": [],
+      "explanation": "Level integration proves the new mechanics work in context and the collectables provide a gameplay reason to interact with each platform."
+    }
+  },
+  {
+    "criterion": "Each platform type has its own scene file and script file following project naming pattern",
+    "score": 13,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Check the project filesystem for one scene and one script per platform type, and confirm each scene root has its script attached. Confirm the scene and script share the same basename.",
+      "assets": [],
+      "explanation": "Consistent file separation improves reuse, instancing, and maintainability, and it matches the refactor goal of configurable platform instances."
+    }
+  },
+  {
+    "criterion": "All moving platforms use AnimatableBody2D so the player rides them properly",
+    "score": 13,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Open the lift and horizontal moving platform scenes, confirm the root node type is AnimatableBody2D. Play and confirm the player remains on the platform while it moves.",
+      "assets": [],
+      "explanation": "AnimatableBody2D is the correct body type for kinematic platform motion that carries characters reliably in Godot 4."
+    }
+  },
+  {
+    "criterion": "Catapult platform launches player stronger than regular jump, cooldown, uses signal and dedicated player method",
+    "score": 15,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Inspect the catapult script for a declared signal and emission on landing, then inspect the player script for a dedicated handler method. Play and confirm repeated triggers are blocked during cooldown.",
+      "assets": [],
+      "explanation": "Signal based communication prevents tight coupling, and cooldown prevents exploit loops and makes the mechanic readable and controllable."
+    }
+  },
+  {
+    "criterion": "Horizontal moving platform loops between two points with configurable distance and speed",
+    "score": 15,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Select the platform instance in the editor and confirm speed and distance appear as editable exported properties. Play and confirm it moves back and forth indefinitely.",
+      "assets": [],
+      "explanation": "Editor configurable motion is required for level design iteration, and continuous looping differentiates it from the player triggered lift."
+    }
+  },
+  {
+    "criterion": "Lift platform behavior, trigger on step, moves up set distance, returns after set time",
+    "score": 15,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Select the lift instance and confirm exported travel distance and return delay properties exist. Play and confirm it stays idle until stepped on, then rises and later returns.",
+      "assets": [],
+      "explanation": "Triggered motion and tunable timing are core to the lift mechanic and allow designers to place it meaningfully in the vertical path."
+    }
+  },
+  {
+    "criterion": "Static platforms moved out of platformer.tscn into platform_static.tscn and re-instanced with identical layout",
+    "score": 14,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Open platformer.tscn and confirm static platforms are instanced scenes, not unique inline nodes. Compare global position and rotation against the pre refactor version or a saved snapshot.",
+      "assets": [],
+      "explanation": "The refactor must not alter gameplay or level design, it should only improve reuse and maintainability."
+    }
+  },
+  {
+    "criterion": "Opens and runs in Godot 4.5 without errors or warnings in the debugger console after changes have been applied",
+    "score": 20,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Open the project in Godot 4.5, run the main scene, and watch the debugger console during play. Confirm no errors or warnings are logged.",
+      "assets": [],
+      "explanation": "A clean run ensures the refactor and new mechanics are stable, maintainable, and ready for the rest of the team to build on."
+    }
+  }
+]

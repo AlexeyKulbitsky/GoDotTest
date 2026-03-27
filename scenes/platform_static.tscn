@@ -1,9 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://mgk3n586b1n"]
+[gd_scene load_steps=3 format=3 uid="uid://mgk3n586b1n"]
+
+[ext_resource type="Script" path="res://scripts/platform_static.gd" id="1_static"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nd818"]
 size = Vector2(374, 48)
 
-[node name="Platform1" type="StaticBody2D"]
+[node name="PlatformStatic" type="StaticBody2D"]
+script = ExtResource("1_static")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1, -1)
