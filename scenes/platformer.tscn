@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://ca7rycjigw1hg"]
+[gd_scene load_steps=12 format=3 uid="uid://ca7rycjigw1hg"]
 
 [ext_resource type="Script" uid="uid://cmqx2bu4jf4xl" path="res://scripts/platformer.gd" id="1_xxtnn"]
 [ext_resource type="PackedScene" uid="uid://bfbe1o8sguw0y" path="res://scenes/ui.tscn" id="2_85uu4"]
@@ -8,6 +8,8 @@
 [ext_resource type="PackedScene" uid="uid://bh47bewqiai2c" path="res://scenes/platform_lift.tscn" id="6_lift"]
 [ext_resource type="PackedScene" path="res://scenes/platform_slide.tscn" id="7_slide"]
 [ext_resource type="PackedScene" path="res://scenes/platform_catapult.tscn" id="8_catapult"]
+[ext_resource type="PackedScene" path="res://scenes/enemy_chaser.tscn" id="9_chaser"]
+[ext_resource type="PackedScene" path="res://scenes/enemy_shooter.tscn" id="10_shooter"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j2uy2"]
 size = Vector2(1083, 150)
@@ -68,3 +70,9 @@ position = Vector2(850, -310)
 
 [node name="LiftCollectable" parent="." instance=ExtResource("4_nd818")]
 position = Vector2(400, -780)
+
+[node name="EnemyChaser" parent="." instance=ExtResource("9_chaser")]
+position = Vector2(800, 570)
+
+[node name="EnemyShooter" parent="." instance=ExtResource("10_shooter")]
+position = Vector2(1044, 316)

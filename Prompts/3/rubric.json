@@ -1,0 +1,152 @@
+[
+  {
+    "criterion": "Contains no debug prints in new scripts except the player hit placeholder message.",
+    "score": 14,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Search new .gd files for print calls and confirm only the hit placeholder remains.",
+      "assets": [],
+      "explanation": "Stray debug output obscures real errors and makes playtesting unreliable in an existing project."
+    }
+  },
+  {
+    "criterion": "Uses a projectile script that moves and frees itself without calling back into the shooter after spawn.",
+    "score": 17,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Inspect projectile.gd for movement and queue_free logic, confirm no references to the shooter node after initialization.",
+      "assets": [],
+      "explanation": "Self-contained projectiles reduce coupling and prevent runtime errors when shooters are freed or disabled."
+    }
+  },
+  {
+    "criterion": "Includes one EnemyChaser and one EnemyShooter instance in platformer.tscn, both resting on valid ground.",
+    "score": 13,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Open platformer.tscn and verify both instances exist and their collision shapes do not overlap tiles at rest.",
+      "assets": [],
+      "explanation": "Correct placement ensures the new content is testable in the main level without breaking traversal."
+    }
+  },
+  {
+    "criterion": "Prints a \"player hit\" message when the player collides with the chaser body or is hit by a projectile.",
+    "score": 15,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Run the level, touch the chaser, then get hit by a projectile, confirm the message appears in both cases.",
+      "assets": [],
+      "explanation": "Collision confirmation is the requested placeholder behavior and validates signals and layers are wired correctly."
+    }
+  },
+  {
+    "criterion": "Removes each projectile instance on collision with static level geometry.",
+    "score": 16,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Fire multiple shots into walls and floors, then inspect the remote scene tree to confirm instances free on impact.",
+      "assets": [],
+      "explanation": "Cleanup prevents performance degradation and unintended off-screen collisions during longer play sessions."
+    }
+  },
+  {
+    "criterion": "Moves each projectile horizontally at a constant speed after spawn, without homing or acceleration.",
+    "score": 20,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Record projectile position over time in the debugger and confirm linear motion with constant delta per second.",
+      "assets": [],
+      "explanation": "Predictable projectile motion is required for fair gameplay and for validating collision timing."
+    }
+  },
+  {
+    "criterion": "Uses an exported firing_interval that changes the shooter fire rate when edited per instance.",
+    "score": 17,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Edit firing_interval in the inspector for the placed shooter and confirm the time between shots changes accordingly.",
+      "assets": [],
+      "explanation": "Editor tunables are needed for balancing and for reusing the enemy across multiple levels."
+    }
+  },
+  {
+    "criterion": "Maintains the shooter global_position while firing, with no visible movement during normal play.",
+    "score": 18,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Run the level for 30 seconds while the shooter fires, confirm its global_position stays constant in the inspector.",
+      "assets": [],
+      "explanation": "Stationary behavior matches the design and avoids unintended physics drift or recoil bugs."
+    }
+  },
+  {
+    "criterion": "Includes exported detection_radius and move_speed on the chaser that are editable per instance in the inspector.",
+    "score": 14,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Select the chaser instance and confirm both exported fields appear and affect behavior when changed.",
+      "assets": [],
+      "explanation": "Per-instance tuning is required for level design iteration without code changes."
+    }
+  },
+  {
+    "criterion": "Uses CharacterBody2D and gravity so the chaser stays grounded while chasing on floors and platforms.",
+    "score": 18,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Run chase behavior on flat ground and a platform, confirm the body remains on the surface and responds to gravity.",
+      "assets": [],
+      "explanation": "Physics-consistent movement prevents clipping and ensures the enemy interacts with the level like the player does."
+    }
+  },
+  {
+    "criterion": "Stops horizontal movement when the player exits the detection Area2D.",
+    "score": 17,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Enter the detection radius to trigger chase, then leave it, confirm velocity.x returns to 0 promptly.",
+      "assets": [],
+      "explanation": "Reliable disengage behavior prevents enemies from following the player across the whole level unintentionally."
+    }
+  },
+  {
+    "criterion": "Moves the chaser toward the player by setting velocity.x sign based on player global_position.x while in range.",
+    "score": 20,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Stand left and right of the chaser while in range and confirm it reverses direction to follow player x.",
+      "assets": [],
+      "explanation": "Correct pursuit logic is the core gameplay behavior and must be deterministic for testing and tuning."
+    }
+  },
+  {
+    "criterion": "Maintains zero horizontal velocity for the chaser while the player is outside the detection radius.",
+    "score": 16,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Keep the player out of range and confirm the chaser velocity.x stays at 0 and position does not drift.",
+      "assets": [],
+      "explanation": "Idle stability prevents unintended patrol behavior and makes detection tuning predictable."
+    }
+  },
+  {
+    "criterion": "Includes enemy_chaser and enemy_shooter scenes and scripts, plus projectile.tscn and projectile.gd, with matching names.",
+    "score": 12,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Check the FileSystem for the named .tscn and .gd files and confirm each scene references its script.",
+      "assets": [],
+      "explanation": "Consistent naming and separation improves maintainability and matches the requested project conventions."
+    }
+  },
+  {
+    "criterion": "Runs the project in Godot 4.5 without new errors introduced by the added enemy and projectile scenes.",
+    "score": 20,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Run the project and confirm the debugger shows no errors originating from the new scripts or scenes.",
+      "assets": [],
+      "explanation": "Build stability is essential in an existing project and prevents regressions during integration."
+    }
+  }
+]

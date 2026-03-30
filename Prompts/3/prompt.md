@@ -1,0 +1,13 @@
+Hey! This is another follow-up task for the platformer prototype. It should take around 1.5 to 2 hours. We are still evaluating Godot 4.x so the same standards apply — clean code, clear naming, no debug leftovers.
+
+Take the existing project as your starting point. I want you to add two enemy types to the level, each in its own scene and script, following the same naming and structure conventions as the platform types from the previous task.
+
+The first enemy is a chaser. It sits completely still until the player enters a defined detection radius around it. Once the player is within range, the enemy starts moving horizontally toward the player and keeps chasing them for as long as they remain in range. If the player leaves the detection area, the enemy stops and returns to its idle state. The detection area should be implemented using an Area2D and should be tunable from the editor so you can control how far the enemy can sense the player. The movement speed should also be exported and adjustable per instance. The enemy should not fall off platforms while chasing — apply gravity and use a CharacterBody2D so it interacts with the environment properly. For now it does not need to jump.
+
+The second enemy is a shooter. It also stays completely still at all times and never moves from its position. At a fixed time interval it fires a projectile horizontally in the direction of the player. The projectile travels in a straight line at a constant speed and disappears when it hits a wall, the ground, or the player. The firing interval should be an exported variable so it can be tuned per instance. The projectile itself should live in its own scene called `projectile.tscn` with its own script `projectile.gd` — the shooter instantiates it at runtime and sends it in the right direction. The projectile speed should also be exported on the projectile scene or passed in at spawn time, whichever feels cleaner to you.
+
+For both enemy types, if the player makes contact with the enemy body or gets hit by a projectile, for now just print a message to the console saying the player was hit — no health system, no game over, just a placeholder so we can confirm the collision detection is working correctly before we build anything on top of it.
+
+Add one instance of each enemy type to the level in `platformer.tscn`. Place them on platforms or on the ground in positions where the player will naturally encounter them during a normal playthrough. Name the enemy scenes `enemy_chaser.tscn` and `enemy_shooter.tscn` with scripts `enemy_chaser.gd` and `enemy_shooter.gd` respectively.
+
+Ping me if anything about the projectile spawning or the chaser movement logic feels unclear.
