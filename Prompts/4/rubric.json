@@ -1,0 +1,142 @@
+[
+  {
+    "criterion": "Resets each chaser enemy to its initial position and idle state after player respawn.",
+    "score": 17,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Trigger a death, then observe each chaser returns to its start transform and stops chasing. Compare against their initial placement in platformer.tscn.",
+      "assets": [],
+      "explanation": "Enemy state carryover can cause unfair immediate re-deaths and breaks expected checkpoint behavior in platformers."
+    }
+  },
+  {
+    "criterion": "Respawns the player without reloading the current scene and within 1 frame of the death trigger.",
+    "score": 18,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Trigger death and confirm the current scene node path stays the same and no reload occurs. Verify the player position updates by the next physics frame.",
+      "assets": [],
+      "explanation": "Avoiding scene reload preserves runtime state and prevents hitches, which is central to the requested experience."
+    }
+  },
+  {
+    "criterion": "Triggers fall death only when the player drops below the lowest walkable surface by a safe margin.",
+    "score": 14,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Walk and jump across the level and confirm no false deaths occur. Fall off the lowest platform and confirm death triggers shortly after leaving the play area.",
+      "assets": [],
+      "explanation": "A fall detector must avoid false positives while still preventing long out-of-bounds time that feels broken."
+    }
+  },
+  {
+    "criterion": "Uses a decoupled mechanism, signals or groups, so enemies and projectiles do not store a persistent player reference.",
+    "score": 16,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Inspect enemy and projectile scripts and confirm they emit a signal or use groups instead of caching the player node. Verify death still triggers on contact and hit.",
+      "assets": [],
+      "explanation": "Loose coupling reduces brittle dependencies and makes it easier to reuse enemies and projectiles across levels."
+    }
+  },
+  {
+    "criterion": "Resets player velocity to zero and restores immediate movement control on the first frame after respawn.",
+    "score": 18,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Die while moving, then confirm velocity reads as (0,0) and input moves the player on the next physics frame. Repeat for falling and jumping deaths.",
+      "assets": [],
+      "explanation": "Residual physics state causes inconsistent controls and can chain deaths, which undermines the respawn system."
+    }
+  },
+  {
+    "criterion": "Preserves the player jump counter value across death and respawn.",
+    "score": 17,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Collect jump upgrades, note the current jump counter, then die and confirm the value is unchanged after respawn. Verify via UI or debug output if present.",
+      "assets": [],
+      "explanation": "Persisting collected progression prevents frustration and matches the prompt requirement to keep what was collected before dying."
+    }
+  },
+  {
+    "criterion": "Reads the spawn point position from a scene node at runtime, so editor moves change respawn without code edits.",
+    "score": 15,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Move the SpawnPoint instance in platformer.tscn, run the game, die, and confirm respawn occurs at the new location. Confirm no code changes were made.",
+      "assets": [],
+      "explanation": "A single source of truth for spawn reduces maintenance and prevents mismatches between level layout and player start."
+    }
+  },
+  {
+    "criterion": "Sets player position to the spawn point and resets velocity to (0,0) on respawn.",
+    "score": 19,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Trigger death and compare the player global position to the SpawnPoint global position. Inspect velocity values immediately after respawn to confirm both axes are zero.",
+      "assets": [],
+      "explanation": "Exact repositioning and velocity reset prevent physics glitches and ensure consistent, fair respawns."
+    }
+  },
+  {
+    "criterion": "Routes fall, enemy contact, and projectile hit into one shared death handler in player.gd.",
+    "score": 17,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Inspect player.gd for a single death function and confirm each death source triggers it. Verify no duplicated respawn code exists in enemy or projectile scripts.",
+      "assets": [],
+      "explanation": "Centralizing death logic prevents drift between death types and reduces bugs when respawn behavior changes."
+    }
+  },
+  {
+    "criterion": "Triggers player death on shooter projectile hit and removes the prior placeholder print statement.",
+    "score": 20,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Get hit by a shooter projectile and confirm immediate respawn at SpawnPoint. Search the shooter or projectile script for the old print and confirm it is gone.",
+      "assets": [],
+      "explanation": "Projectile death is a core requirement and removing placeholder output confirms the feature is implemented, not stubbed."
+    }
+  },
+  {
+    "criterion": "Triggers player death on chaser body contact and removes the prior placeholder print statement.",
+    "score": 20,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Touch the chaser enemy and confirm immediate respawn at SpawnPoint. Search the chaser script for the old print and confirm it is gone.",
+      "assets": [],
+      "explanation": "Enemy contact death is a core requirement and placeholder removal ensures the interaction is fully wired."
+    }
+  },
+  {
+    "criterion": "Exposes a tunable fall death threshold in the editor and triggers respawn when the player crosses it.",
+    "score": 18,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Adjust the threshold in the Inspector, run, and confirm falling below it triggers respawn. Confirm no code edits are needed to change the value.",
+      "assets": [],
+      "explanation": "Editor tunability supports level iteration and prevents hardcoded values from breaking when layouts change."
+    }
+  },
+  {
+    "criterion": "Includes spawn_point.tscn and instances it in platformer.tscn, with the player starting at the same position.",
+    "score": 16,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Confirm spawn_point.tscn exists and is instanced in platformer.tscn. Run and verify the player initial global position matches the SpawnPoint global position.",
+      "assets": [],
+      "explanation": "A dedicated spawn scene and single source of truth prevents mismatched start positions and simplifies future checkpoint expansion."
+    }
+  },
+  {
+    "criterion": "Runs in Godot 4.x with zero errors or warnings in the debugger console during gameplay.",
+    "score": 20,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Open the project in Godot 4.x, run the main scene, and trigger each death type. Confirm the debugger shows no errors or warnings.",
+      "assets": [],
+      "explanation": "A clean console is a baseline quality bar and prevents hidden runtime issues from shipping into later tasks."
+    }
+  }
+]

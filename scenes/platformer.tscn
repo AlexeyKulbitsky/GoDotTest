@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://ca7rycjigw1hg"]
+[gd_scene load_steps=13 format=3 uid="uid://ca7rycjigw1hg"]
 
 [ext_resource type="Script" uid="uid://cmqx2bu4jf4xl" path="res://scripts/platformer.gd" id="1_xxtnn"]
 [ext_resource type="PackedScene" uid="uid://bfbe1o8sguw0y" path="res://scenes/ui.tscn" id="2_85uu4"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" path="res://scenes/platform_catapult.tscn" id="8_catapult"]
 [ext_resource type="PackedScene" path="res://scenes/enemy_chaser.tscn" id="9_chaser"]
 [ext_resource type="PackedScene" path="res://scenes/enemy_shooter.tscn" id="10_shooter"]
+[ext_resource type="PackedScene" uid="uid://dspawnpoint001" path="res://scenes/spawn_point.tscn" id="11_spawn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j2uy2"]
 size = Vector2(1083, 150)
@@ -52,6 +53,9 @@ position = Vector2(350, -430)
 travel_distance = 400.0
 return_delay = 3.0
 speed = 150.0
+
+[node name="SpawnPoint" parent="." instance=ExtResource("11_spawn")]
+position = Vector2(120, 570)
 
 [node name="CharacterBody2D" parent="." instance=ExtResource("2_j2uy2")]
 position = Vector2(120, 570)
