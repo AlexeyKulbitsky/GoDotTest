@@ -1,0 +1,152 @@
+[
+  {
+    "criterion": "Demonstrates the full menu flow without errors and without duplicate menu instances after Play, Pause, Resume, Restart, and Exit.",
+    "score": 20,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Run the game and execute Play, Pause, Resume, Pause, Restart, then Exit, and confirm no errors and only one menu instance exists.",
+      "assets": [],
+      "explanation": "End to end flow catches integration bugs like duplicated UI, stuck pause state, or broken scene transitions that unit checks miss."
+    }
+  },
+  {
+    "criterion": "Defines the gameplay scene path once in menu.gd as a constant or exported variable used by Play and Restart.",
+    "score": 13,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Open menu.gd and verify a single path variable exists and both Play and Restart reference it rather than inline strings.",
+      "assets": [],
+      "explanation": "Centralizing the scene path prevents brittle logic when files are renamed and reduces maintenance errors."
+    }
+  },
+  {
+    "criterion": "Uses one menu.tscn and one menu.gd to support main and pause modes via a mode flag that controls visible buttons.",
+    "score": 15,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Inspect the project for a single menu scene and script, then verify a mode flag toggles Play versus Resume and Restart visibility.",
+      "assets": [],
+      "explanation": "A single implementation reduces duplicated logic and prevents drift between main menu and pause menu behavior."
+    }
+  },
+  {
+    "criterion": "Preserves the remaining power up duration across pause and resume, so the timer continues from the same remaining time.",
+    "score": 17,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Activate a power up, note remaining time, pause for several seconds, resume, and confirm remaining time matches the pre pause value.",
+      "assets": [],
+      "explanation": "Timer correctness is a core gameplay expectation and prevents exploits or broken power up behavior when pausing."
+    }
+  },
+  {
+    "criterion": "Sets the menu to process while paused, so its buttons remain interactive when the scene tree is paused.",
+    "score": 19,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Pause the game and verify the menu still receives input and button clicks while gameplay nodes stop updating.",
+      "assets": [],
+      "explanation": "Pause menus must remain usable during a paused scene, otherwise the player can get stuck."
+    }
+  },
+  {
+    "criterion": "Uses SceneTree.paused to stop gameplay updates while the pause menu is open, and gameplay resumes when unpaused.",
+    "score": 18,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Open the pause menu and confirm SceneTree.paused becomes true and movement and timers stop, then resume and confirm they continue.",
+      "assets": [],
+      "explanation": "Using the engine pause mechanism ensures consistent freezing across nodes and avoids partial pause bugs."
+    }
+  },
+  {
+    "criterion": "Resets the session on Restart, including score, player spawn, enemy positions, and collectible availability.",
+    "score": 19,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Start a run, change score and positions, collect items, then press Restart and verify all listed state returns to initial values.",
+      "assets": [],
+      "explanation": "Restart must reliably return the game to a known baseline to avoid soft locks and inconsistent progression."
+    }
+  },
+  {
+    "criterion": "Resumes the game when Escape is pressed while the pause menu is open, matching the Resume button behavior.",
+    "score": 17,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Open the pause menu, press Escape, and confirm the menu closes and the game unpauses identically to clicking Resume.",
+      "assets": [],
+      "explanation": "Escape to resume is a common usability expectation and prevents input inconsistency between keyboard and UI."
+    }
+  },
+  {
+    "criterion": "Restores gameplay on Resume without changing game state, including player position, score, and active power up status.",
+    "score": 20,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Pause mid action, record position and score, resume, and confirm values match and gameplay continues from the same moment.",
+      "assets": [],
+      "explanation": "Resume must be non destructive so pausing does not alter outcomes or break player trust."
+    }
+  },
+  {
+    "criterion": "Displays Resume, Restart, and Exit in pause mode, and hides the Play button in this mode.",
+    "score": 17,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Open the pause menu during gameplay and verify only Resume, Restart, and Exit are visible and Play is not shown.",
+      "assets": [],
+      "explanation": "Correct button set prevents confusing actions and ensures the menu matches the current context."
+    }
+  },
+  {
+    "criterion": "Pauses gameplay and shows the pause menu overlay when Escape is pressed, without reloading or replacing the gameplay scene.",
+    "score": 20,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "During gameplay press Escape and confirm the current scene instance remains and the menu appears over it while the game pauses.",
+      "assets": [],
+      "explanation": "Overlay pause avoids losing session state and prevents unintended restarts or scene churn."
+    }
+  },
+  {
+    "criterion": "Closes the application when Exit is clicked from either menu mode, without errors in the debugger output.",
+    "score": 14,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Click Exit from main menu and pause menu in separate runs and confirm the app terminates and no errors appear in output.",
+      "assets": [],
+      "explanation": "Clean shutdown prevents stuck processes and is a baseline quality expectation for shipped builds."
+    }
+  },
+  {
+    "criterion": "Loads the gameplay scene on Play and removes the main menu from view, with no errors and no menu UI left on screen.",
+    "score": 20,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Launch, click Play, and verify the gameplay scene is active and the menu is gone, then check output for errors.",
+      "assets": [],
+      "explanation": "Scene transition correctness is essential to start gameplay cleanly and avoid UI stacking bugs."
+    }
+  },
+  {
+    "criterion": "Displays only Play and Exit in main menu mode, and centers the menu container on screen.",
+    "score": 15,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Launch to main menu and verify only two buttons exist and the menu container is visually centered in the viewport.",
+      "assets": [],
+      "explanation": "A minimal, centered main menu meets usability expectations and avoids confusing extra controls."
+    }
+  },
+  {
+    "criterion": "Sets menu.tscn as the main scene, so launch shows the main menu first and gameplay does not start until Play is clicked.",
+    "score": 18,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Check Project Settings run main scene points to menu.tscn, then run and confirm gameplay is not active until Play.",
+      "assets": [],
+      "explanation": "Correct entry point ensures consistent startup behavior and prevents unintended gameplay running behind the menu."
+    }
+  }
+]
