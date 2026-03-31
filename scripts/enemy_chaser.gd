@@ -50,4 +50,4 @@ func _on_detection_area_body_exited(body: Node2D) -> void:
 
 func _on_hit_area_body_entered(body: Node2D) -> void:
 	if body is CharacterBody2D and body.is_in_group("player"):
-		body.die()
+		body.on_enemy_contact(self)

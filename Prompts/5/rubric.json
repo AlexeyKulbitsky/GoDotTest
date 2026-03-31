@@ -1,0 +1,152 @@
+[
+  {
+    "criterion": "Reverts speed, jump, color, and enemy collision behavior by the next physics frame after the timer ends.",
+    "score": 18,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Trigger the power up, wait for expiry, then verify all four behaviors match baseline on the next physics tick. Confirm no errors occur when the timer ends.",
+      "assets": [],
+      "explanation": "Clean state transitions prevent hard to debug edge cases and ensure the player experience matches expectations when the effect ends."
+    }
+  },
+  {
+    "criterion": "Includes at least two collectible_powerup instances in platformer.tscn, placed near enemies or on elevated routes.",
+    "score": 12,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Open platformer.tscn and count collectible_powerup nodes, then confirm their positions are adjacent to enemy areas or higher platforms.",
+      "assets": [],
+      "explanation": "Intentional placement ensures the mechanic is discoverable and provides meaningful gameplay value rather than being purely cosmetic."
+    }
+  },
+  {
+    "criterion": "Does not change the score value or score label when collectible_powerup is collected.",
+    "score": 13,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Collect a power up and compare the score value and label text before and after pickup.",
+      "assets": [],
+      "explanation": "Separating mechanics avoids unintended progression changes and prevents regressions in the existing scoring system."
+    }
+  },
+  {
+    "criterion": "Uses a single boolean in player.gd to gate speed, jump, color, and enemy contact outcomes.",
+    "score": 17,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Inspect player.gd for one flag that controls all four behaviors via conditional checks or a centralized state function.",
+      "assets": [],
+      "explanation": "Centralized state reduces bugs, makes timer resets reliable, and keeps the feature extensible for future power ups."
+    }
+  },
+  {
+    "criterion": "Exposes an exported duration on collectible_powerup that is editable per instance in the Inspector.",
+    "score": 15,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Select different collectible_powerup instances in platformer.tscn and confirm each can set a different duration value.",
+      "assets": [],
+      "explanation": "Per instance tuning supports level design iteration without code changes and keeps balancing fast and safe."
+    }
+  },
+  {
+    "criterion": "Triggers the original player death and respawn behavior on enemy contact when power up is inactive.",
+    "score": 20,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Run the game, avoid collecting a power up, touch chaser and shooter enemies, and confirm baseline death and respawn occurs.",
+      "assets": [],
+      "explanation": "Regression protection ensures the new mechanic does not break core fail states and preserves expected difficulty."
+    }
+  },
+  {
+    "criterion": "Removes chaser and shooter enemies on player contact while power up is active, without killing the player.",
+    "score": 20,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Collect a power up, collide with each enemy type, and confirm the enemy disappears and the player remains alive.",
+      "assets": [],
+      "explanation": "This is the core gameplay reversal of the power up and must be reliable for player trust and level balance."
+    }
+  },
+  {
+    "criterion": "Increases jump height during power up and restores the exact baseline jump value after expiry.",
+    "score": 19,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Compare max jump height with and without power up, then inspect the jump variable value before pickup and after expiry.",
+      "assets": [],
+      "explanation": "Jump boost is a primary reward signal and must revert cleanly to avoid breaking traversal and level gating."
+    }
+  },
+  {
+    "criterion": "Increases horizontal speed during power up and restores the exact baseline speed value after expiry. ",
+    "score": 19,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Measure movement speed or inspect the speed variable while active, then confirm it matches baseline after the timer ends.",
+      "assets": [],
+      "explanation": "Speed boosts affect combat and platforming timing, so exact restoration prevents unintended difficulty shifts."
+    }
+  },
+  {
+    "criterion": "Resets the remaining power up time to full duration on re pickup, without reverting player color in between.",
+    "score": 17,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Collect a power up, collect another before expiry, and confirm the timer extends and the player color stays in the powered state.",
+      "assets": [],
+      "explanation": "Timer reset behavior prevents confusing feedback and ensures consistent rules when chaining pickups."
+    }
+  },
+  {
+    "criterion": "Restores the player visual color to its exact pre power up value when the effect expires.",
+    "score": 16,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Record the player color before pickup, then confirm the same value is restored after expiry and after a re pickup chain.",
+      "assets": [],
+      "explanation": "Clear visual state prevents player confusion and avoids persistent UI bugs that imply the effect is still active."
+    }
+  },
+  {
+    "criterion": "Changes the player visual color immediately on power up pickup, and the new color is clearly distinct.",
+    "score": 16,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Collect a power up and confirm the player color changes on the same moment as pickup and is visually different from baseline.",
+      "assets": [],
+      "explanation": "Immediate feedback communicates the temporary state and helps players understand why collisions and movement changed."
+    }
+  },
+  {
+    "criterion": "Displays collectible_powerup with a different color and larger size than the regular collectible.",
+    "score": 14,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Run the scene and visually compare the two collectible types for color difference and size difference.",
+      "assets": [],
+      "explanation": "Distinct visuals reduce misreads during fast play and prevent players from confusing power ups with score pickups."
+    }
+  },
+  {
+    "criterion": "Includes collectible_powerup.tscn and collectible_powerup.gd, and matches the regular collectible Area2D structure.",
+    "score": 12,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Verify the files exist in the project and open the scene to confirm it is an Area2D based collectible similar to the regular one.",
+      "assets": [],
+      "explanation": "Consistent scene structure improves maintainability and ensures the new collectible integrates with existing pickup logic."
+    }
+  },
+  {
+    "criterion": "Runs in Godot 4.x with no new errors, and no new warnings introduced by the power up changes.",
+    "score": 20,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Run the project and compare the debugger output to the baseline branch or prior commit, focusing on new messages from modified files.",
+      "assets": [],
+      "explanation": "Keeping the project clean prevents hidden runtime failures and ensures the feature is shippable and easy to debug."
+    }
+  }
+]

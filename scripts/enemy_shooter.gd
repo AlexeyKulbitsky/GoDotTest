@@ -10,7 +10,7 @@ func _ready() -> void:
 
 func _on_hit_area_body_entered(body: Node2D) -> void:
 	if body is CharacterBody2D and body.is_in_group("player"):
-		body.die()
+		body.on_enemy_contact(self)
 
 func _on_fire_timer_timeout() -> void:
 	var player = get_tree().get_first_node_in_group("player")

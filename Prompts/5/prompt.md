@@ -1,0 +1,19 @@
+Hey! This is another follow-up task for the platformer prototype. It should take around 1 to 1.5 hours. Same standards as always — clean code, clear naming, no debug leftovers.
+
+Take the existing project as your starting point. I want you to add a new type of collectible that temporarily powers up the player. Call it a power-up collectible and save it as `collectible_powerup.tscn` with its script `collectible_powerup.gd`. It should follow the same Area2D structure as the existing regular collectible but be visually distinct — use a different color and make it slightly larger than the regular collectible so the player can tell them apart at a glance.
+
+When the player picks up this collectible, two things change temporarily. First, the player moves faster — the horizontal movement speed should increase noticeably compared to the base value. Second, the player jumps higher — the jump velocity should increase enough that the player can reach platforms that would otherwise be out of reach with a normal jump. Both the boosted speed and the boosted jump force should be defined as exported variables on the player or the collectible, whichever feels cleaner, so they can be tuned from the editor without touching the script.
+
+On top of the speed and jump boost, while the effect is active the player becomes dangerous to enemies. If the player's body makes contact with any chaser enemy during the power-up window, that enemy should die and be removed from the scene immediately. The same should apply to the shooter enemy. The player should not die from enemy contact while the effect is active — the outcome of the collision is reversed entirely.
+
+To make it immediately clear to the player that the effect is active, the player's square should change to a distinct color the moment the power-up is collected. When the effect expires the color should revert back to the original color automatically. If the player picks up another power-up while the effect is already running, the color should stay changed and the timer should reset — there should be no flicker or momentary revert to the original color mid-effect.
+
+The effect should last for a fixed number of seconds that is exported and adjustable per collectible instance from the editor. When the timer runs out, all changes — speed, jump force, enemy kill on contact, and player color — revert back to their original values automatically. If the player picks up another power-up collectible while the effect is already active, the timer should reset and the effect should continue from full duration rather than stacking or being ignored.
+
+The power-up state needs to be tracked inside `player.gd`. The player should know at any given moment whether the effect is active or not, and all the conditional behavior — reversed enemy collision outcome, boosted stats, color change — should be driven by that single flag. Keep the logic centralized so it is easy to extend later.
+
+The power-up collectible does not need to increment the score when collected. It is a separate mechanic from the regular collectibles and should not interfere with the score counter.
+
+Add two or three instances of `collectible_powerup.tscn` to `platformer.tscn` and place them in spots that feel rewarding to reach — near enemies or in areas where the speed and jump boost give the player a meaningful advantage. Make sure the regular collectibles and the power-up collectibles are clearly distinguishable from each other in the scene.
+
+Ping me if anything about the timer reset behavior, the color revert, or the enemy kill logic during the power-up window feels unclear.
