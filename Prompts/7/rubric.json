@@ -1,0 +1,151 @@
+[
+  {
+    "criterion": "Contains no debug print statements or dead code in newly added scripts checkpoint.gd, level_exit.gd, and game_manager.gd.",
+    "score": 14,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Search those scripts for print calls and commented out or unreachable blocks. Confirm only intentional logging remains.",
+      "assets": [],
+      "explanation": "Leftover debug code and dead code reduce maintainability and can cause noisy output or hidden behavior in production."
+    }
+  },
+  {
+    "criterion": "Demonstrates a reproducible run that reaches level_2.tscn and shows score persistence and checkpoint respawn.",
+    "score": 20,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Run from the menu into level 1, activate a checkpoint, change score, touch the exit, then die in level 2 and confirm respawn and score.",
+      "assets": [],
+      "explanation": "End to end validation catches integration bugs across scenes, UI, and autoload state that unit checks can miss."
+    }
+  },
+  {
+    "criterion": "Shows level_2.tscn with a distinct platform arrangement and at least one traversal segment not present in level_1.tscn.",
+    "score": 14,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Compare level_1.tscn and level_2.tscn in the editor and confirm the main platform path and obstacle placement are not reused.",
+      "assets": [],
+      "explanation": "A distinct layout ensures the second level provides new gameplay value rather than a duplicate scene with minor edits."
+    }
+  },
+  {
+    "criterion": "Includes in level_2.tscn a spawn point, 2+ checkpoints, a level exit, 1+ of each enemy type, collectibles, and a power up.",
+    "score": 16,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Open level_2.tscn and verify required nodes or instanced scenes exist and are reachable in play. Confirm at least one of each enemy type is present.",
+      "assets": [],
+      "explanation": "Minimum content requirements ensure level 2 is playable and exercises the reused gameplay systems."
+    }
+  },
+  {
+    "criterion": "Loads level_2.tscn when the player enters level_exit.tscn, and the previous level root is freed without errors.",
+    "score": 19,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Enter the exit in level 1, confirm the active scene is level_2.tscn, and check the debugger for errors and duplicate level roots.",
+      "assets": [],
+      "explanation": "Clean scene transitions prevent memory leaks, duplicated gameplay nodes, and state bugs during level changes."
+    }
+  },
+  {
+    "criterion": "Includes 2 to 3 checkpoint instances placed along the main traversal path in level_1.tscn.",
+    "score": 15,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Open level_1.tscn and locate checkpoint instances. Confirm they are positioned on the intended route rather than stacked at spawn.",
+      "assets": [],
+      "explanation": "Checkpoint placement affects usability and ensures the feature is exercised during normal play."
+    }
+  },
+  {
+    "criterion": "Respawns the player at the last activated checkpoint position when the player dies.",
+    "score": 20,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Activate a checkpoint, trigger the existing death condition, and confirm the player spawns at the checkpoint location.",
+      "assets": [],
+      "explanation": "Checkpoint respawn is the core gameplay requirement and must work reliably under the existing death flow."
+    }
+  },
+  {
+    "criterion": "Keeps only one checkpoint active, and reverts the previous checkpoint to its inactive color on activation.",
+    "score": 17,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Activate checkpoint A then checkpoint B, confirm B shows active color and A returns to inactive color.",
+      "assets": [],"explanation": "Single active checkpoint prevents ambiguous respawn targets and provides consistent player feedback."
+    }
+  },
+  {
+    "criterion": "Activates a checkpoint on player contact, changes its color, and updates the respawn position to that checkpoint.",
+    "score": 16,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Touch an inactive checkpoint, confirm its visual color changes, then die and confirm respawn occurs at that checkpoint.",
+      "assets": [],
+      "explanation": "Immediate feedback and correct respawn targeting are essential for player understanding and functional checkpoints."
+    }
+  },
+  {
+    "criterion": "Includes checkpoint.tscn with an Area2D and CollisionShape2D used to detect the player.",
+    "score": 13,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Open checkpoint.tscn and verify it contains an Area2D with a configured CollisionShape2D. Confirm the player can trigger it in play.",
+      "assets": [],
+      "explanation": "A consistent detection setup prevents missed triggers and ensures checkpoints work reliably across levels."
+    }
+  },
+  {
+    "criterion": "Resets GameManager score to 0 when Restart is used, and the score label shows 0 after reload.",
+    "score": 17,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Gain score, press Restart, then confirm GameManager.score is 0 and the UI score label displays 0.",
+      "assets": [],
+      "explanation": "Restart should reliably clear persistent session state so players do not carry score into a new run."
+    }
+  },
+  {
+    "criterion": "Preserves GameManager.score across the level 1 to level 2 transition, and the score label matches after load.",
+    "score": 20,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Set a nonzero score in level 1, transition to level 2, then confirm GameManager.score and the UI label show the same value.",
+      "assets": [],
+      "explanation": "Persistent score is a core requirement of the transition and validates the autoload and UI binding are correct."
+    }
+  },
+  {
+    "criterion": "Uses GameManager as the only score store, and UI reads the displayed score directly from GameManager.score.",
+    "score": 18,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Search scripts for a score variable outside game_manager.gd and for direct UI owned score state. Verify score label binds to GameManager value.",
+      "assets": [],
+      "explanation": "Centralizing score prevents desync across scenes and simplifies persistence and reset behavior."
+    }
+  },
+  {
+    "criterion": "Registers game_manager.gd as an AutoLoad singleton, and scripts access it via the global GameManager name.",
+    "score": 19,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Check Project Settings AutoLoad list for GameManager, then open a script that reads or writes GameManager.score without node paths.",
+      "assets": [],
+      "explanation": "Autoload registration is required for score persistence and avoids fragile scene tree dependencies."
+    }
+  },
+  {
+    "criterion": "Opens and runs with level_1.tscn as main scene, and contains no remaining references to platformer.tscn.",
+    "score": 18,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Run the project and confirm the main scene is level_1.tscn. Search the project for \"platformer.tscn\" and confirm no hits remain.",
+      "assets": [],
+      "explanation": "Broken scene paths are a common regression after renames and can prevent the game from booting or loading levels."
+    }
+  }
+]

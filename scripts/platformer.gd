@@ -1,11 +1,9 @@
 extends Node
 
-var score = 0
-
 var _menu_scene: PackedScene = preload("res://scenes/menu.tscn")
 
 func _ready() -> void:
-	$CanvasLayer.update_score(score)
+	$CanvasLayer.update_score(GameManager.score)
 	for collectable in get_tree().get_nodes_in_group("collectables"):
 		collectable.collected.connect(_on_collectable_collected)
 	for catapult in get_tree().get_nodes_in_group("catapults"):
@@ -19,5 +17,5 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_tree().paused = true
 
 func _on_collectable_collected():
-	score += 1
-	$CanvasLayer.update_score(score)
+	GameManager.increment_score()
+	$CanvasLayer.update_score(GameManager.score)

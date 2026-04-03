@@ -15,12 +15,18 @@ var is_powered_up := false
 var _current_speed := BASE_SPEED
 var _current_jump_velocity := BASE_JUMP_VELOCITY
 var _powerup_timer: Timer
+var _spawn_position: Vector2
 
 func _ready() -> void:
 	add_to_group("player")
+	var checkpoint_script = load("res://scripts/checkpoint.gd")
+	checkpoint_script.current_checkpoint = null
 	var spawn = get_tree().get_first_node_in_group("spawn_point")
 	if spawn:
 		global_position = spawn.global_position
+		_spawn_position = spawn.global_position
+	else:
+		_spawn_position = global_position
 	_powerup_timer = Timer.new()
 	_powerup_timer.one_shot = true
 	_powerup_timer.timeout.connect(_on_powerup_expired)
@@ -66,9 +72,11 @@ func on_enemy_contact(enemy: Node2D) -> void:
 func die() -> void:
 	if is_powered_up:
 		return
-	var spawn = get_tree().get_first_node_in_group("spawn_point")
-	if spawn:
-		global_position = spawn.global_position
+	var checkpoint_script = load("res://scripts/checkpoint.gd")
+	if checkpoint_script.current_checkpoint:
+		global_position = checkpoint_script.current_checkpoint.global_position
+	else:
+		global_position = _spawn_position
 	velocity = Vector2.ZERO
 	jumps_remaining = MAX_JUMPS
 	for chaser in get_tree().get_nodes_in_group("chasers"):

@@ -1,6 +1,6 @@
 extends CanvasLayer
 
-const GAMEPLAY_SCENE := "res://scenes/platformer.tscn"
+const GAMEPLAY_SCENE := "res://scenes/level_1.tscn"
 
 var is_pause_menu := false
 
@@ -27,12 +27,14 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 func _on_play_pressed() -> void:
+	GameManager.reset_score()
 	get_tree().change_scene_to_file(GAMEPLAY_SCENE)
 
 func _on_resume_pressed() -> void:
 	_resume()
 
 func _on_restart_pressed() -> void:
+	GameManager.reset_score()
 	get_tree().paused = false
 	get_tree().reload_current_scene()
 

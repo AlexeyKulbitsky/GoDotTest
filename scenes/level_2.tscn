@@ -1,0 +1,112 @@
+[gd_scene load_steps=16 format=3 uid="uid://16qs8j5bp0fu"]
+
+[ext_resource type="Script" uid="uid://cmqx2bu4jf4xl" path="res://scripts/platformer.gd" id="1_xxtnn"]
+[ext_resource type="PackedScene" uid="uid://bfbe1o8sguw0y" path="res://scenes/ui.tscn" id="2_ui"]
+[ext_resource type="PackedScene" uid="uid://du2g430hqsqag" path="res://scenes/player.tscn" id="3_player"]
+[ext_resource type="PackedScene" uid="uid://bcpdrxglolmgl" path="res://scenes/collectable.tscn" id="4_collect"]
+[ext_resource type="PackedScene" uid="uid://mgk3n586b1n" path="res://scenes/platform_static.tscn" id="5_static"]
+[ext_resource type="PackedScene" uid="uid://bh47bewqiai2c" path="res://scenes/platform_lift.tscn" id="6_lift"]
+[ext_resource type="PackedScene" path="res://scenes/platform_slide.tscn" id="7_slide"]
+[ext_resource type="PackedScene" path="res://scenes/platform_catapult.tscn" id="8_catapult"]
+[ext_resource type="PackedScene" path="res://scenes/enemy_chaser.tscn" id="9_chaser"]
+[ext_resource type="PackedScene" path="res://scenes/enemy_shooter.tscn" id="10_shooter"]
+[ext_resource type="PackedScene" uid="uid://vmxdx6o5kvjc" path="res://scenes/spawn_point.tscn" id="11_spawn"]
+[ext_resource type="PackedScene" uid="uid://dpwrupscn4t8v" path="res://scenes/collectible_powerup.tscn" id="12_powerup"]
+[ext_resource type="PackedScene" path="res://scenes/checkpoint.tscn" id="13_ckpt"]
+[ext_resource type="PackedScene" path="res://scenes/level_exit.tscn" id="14_exit"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
+size = Vector2(2200, 150)
+
+[node name="Level2" type="Node2D"]
+script = ExtResource("1_xxtnn")
+
+[node name="CanvasLayer" parent="." instance=ExtResource("2_ui")]
+
+[node name="Ground" type="StaticBody2D" parent="."]
+position = Vector2(1100, 608)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
+position = Vector2(0, 50)
+shape = SubResource("RectangleShape2D_ground")
+
+[node name="ColorRect" type="ColorRect" parent="Ground"]
+offset_left = -1100.0
+offset_top = -25.0
+offset_right = 1100.0
+offset_bottom = 126.0
+color = Color(0.25, 0.15, 0.1, 1)
+
+[node name="SpawnPoint" parent="." instance=ExtResource("11_spawn")]
+position = Vector2(100, 570)
+
+[node name="CharacterBody2D" parent="." instance=ExtResource("3_player")]
+position = Vector2(100, 570)
+
+[node name="Platform1" parent="." instance=ExtResource("5_static")]
+position = Vector2(350, 460)
+
+[node name="Platform2" parent="." instance=ExtResource("5_static")]
+position = Vector2(800, 350)
+
+[node name="Platform3" parent="." instance=ExtResource("5_static")]
+position = Vector2(1300, 440)
+
+[node name="Platform4" parent="." instance=ExtResource("5_static")]
+position = Vector2(1700, 300)
+
+[node name="Platform5" parent="." instance=ExtResource("5_static")]
+position = Vector2(1200, 120)
+
+[node name="PlatformSlide" parent="." instance=ExtResource("7_slide")]
+position = Vector2(750, 80)
+travel_distance = 250.0
+
+[node name="PlatformCatapult" parent="." instance=ExtResource("8_catapult")]
+position = Vector2(1700, 80)
+
+[node name="PlatformLift" parent="." instance=ExtResource("6_lift")]
+position = Vector2(350, -200)
+travel_distance = 350.0
+return_delay = 2.5
+speed = 130.0
+
+[node name="Collectable1" parent="." instance=ExtResource("4_collect")]
+position = Vector2(350, 400)
+
+[node name="Collectable2" parent="." instance=ExtResource("4_collect")]
+position = Vector2(800, 290)
+
+[node name="Collectable3" parent="." instance=ExtResource("4_collect")]
+position = Vector2(1300, 380)
+
+[node name="Collectable4" parent="." instance=ExtResource("4_collect")]
+position = Vector2(1831, 244)
+
+[node name="Collectable5" parent="." instance=ExtResource("4_collect")]
+position = Vector2(1200, 60)
+
+[node name="Collectable6" parent="." instance=ExtResource("4_collect")]
+position = Vector2(750, 20)
+
+[node name="Collectable7" parent="." instance=ExtResource("4_collect")]
+position = Vector2(350, -570)
+
+[node name="EnemyChaser" parent="." instance=ExtResource("9_chaser")]
+position = Vector2(550, 570)
+
+[node name="EnemyShooter" parent="." instance=ExtResource("10_shooter")]
+position = Vector2(1700, 275)
+
+[node name="PowerUp1" parent="." instance=ExtResource("12_powerup")]
+position = Vector2(1350, 380)
+
+[node name="Checkpoint1" parent="." instance=ExtResource("13_ckpt")]
+position = Vector2(871, 324)
+
+[node name="Checkpoint2" parent="." instance=ExtResource("13_ckpt")]
+position = Vector2(1700, 55)
+
+[node name="LevelExit" parent="." instance=ExtResource("14_exit")]
+position = Vector2(350, -620)
+next_scene = "res://scenes/menu.tscn"
