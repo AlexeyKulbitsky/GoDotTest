@@ -85,6 +85,8 @@ func die() -> void:
 	jumps_remaining = MAX_JUMPS
 	for chaser in get_tree().get_nodes_in_group("chasers"):
 		chaser.reset_position()
+	for bouncer in get_tree().get_nodes_in_group("bouncers"):
+		bouncer.reset_position()
 
 func apply_catapult_launch(force: float) -> void:
 	velocity.y = force

@@ -1,0 +1,140 @@
+[
+  {
+    "criterion": "Includes one bouncer instance in each level scene, placed so its jump intersects a required player path.",
+    "score": 13,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Open each level scene and confirm exactly one bouncer exists and its vertical arc overlaps a route the player must traverse. Verify in play that the player must wait or pass between jumps.",
+      "assets": [],
+      "explanation": "Placement requirements ensure the new enemy affects gameplay and is not added in a non-interactive area."
+    }
+  },
+  {
+    "criterion": "Resets the bouncer to its start position and jump interval state after player death or restart.",
+    "score": 16,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Trigger a death and a restart, then confirm the bouncer is at its initial transform and the next jump timing matches a fresh level load. Repeat while the bouncer is mid-air to confirm it does not persist airborne.",
+      "assets": [],
+      "explanation": "Consistent resets prevent unfair deaths and keep enemy behavior deterministic across retries."
+    }
+  },
+  {
+    "criterion": "Removes the bouncer when the powered-up player collides with it, without deducting a life.",
+    "score": 18,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Activate the player power-up, collide with the bouncer, and confirm the bouncer node is freed and the life count does not decrease. Compare the outcome to an existing enemy kill interaction in the same build.",
+      "assets": [],
+      "explanation": "Matching the established power-up kill rule keeps combat behavior predictable and consistent across enemies."
+    }
+  },
+  {
+    "criterion": "Deducts one life via the game manager and triggers the standard respawn flow on bouncer collision.",
+    "score": 19,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Collide with the bouncer without power-up and confirm the life UI decreases by one and the same respawn sequence occurs as other enemy hits. Inspect the call stack or logs to confirm the game manager handles the deduction.",
+      "assets": [],
+      "explanation": "Centralizing life and respawn logic prevents desync between UI, save state, and gameplay rules."
+    }
+  },
+  {
+    "criterion": "Includes exported variables for bouncer jump_force and jump_interval that are editable per instance.",
+    "score": 14,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Select a bouncer instance and confirm both properties appear in the Inspector and can be changed without script edits. Run the scene to confirm the changes affect jump height and cadence.",
+      "assets": [],
+      "explanation": "Exported tuning enables level-specific balancing without code changes and reduces iteration time."
+    }
+  },
+  {
+    "criterion": "Maintains a stable jump loop and stays within a small horizontal tolerance of its start X over time.",
+    "score": 17,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Let the bouncer run for at least 60 seconds and confirm it continues jumping and landing without leaving the platform. Compare its X position to the initial X and confirm drift stays within a small tolerance like 1 px.",
+      "assets": [],
+      "explanation": "Stability prevents long-session bugs where physics accumulation breaks level obstacles."
+    }
+  },
+  {
+    "criterion": "Includes enemy_bouncer.tscn and enemy_bouncer.gd, and the bouncer scene uses CharacterBody2D with gravity-driven motion.",
+    "score": 16,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Search the project for the scene and script names and open the bouncer scene to confirm the root node is CharacterBody2D. Run the scene and confirm the arc and landing come from physics and gravity, not manual position tweening.",
+      "assets": [],"explanation": "Correct asset presence and physics-based motion ensure the enemy integrates cleanly and behaves predictably with collisions."
+    }
+  },
+  {
+    "criterion": "Shows reload color during cooldown and ready color when able to fire, with no stuck or incorrect state.",
+    "score": 15,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Fire repeatedly and observe the ColorRect color switches immediately on shot and reverts exactly when the next shot becomes possible. Test edge cases like leaving and re-entering range if applicable to confirm no stuck color.",
+      "assets": [],
+      "explanation": "Clear state feedback improves readability and prevents players misreading when the shooter can fire."
+    }
+  },
+  {
+    "criterion": "Includes exported variables for shooter reload_color and ready_color that drive the ColorRect tint.",
+    "score": 14,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Select the shooter instance and confirm both colors appear as exported properties in the Inspector. Change them and confirm the ColorRect tint uses those values in ready and cooldown states.",
+      "assets": [],
+      "explanation": "Exported colors allow quick iteration and accessibility tuning without code changes."
+    }
+  },
+  {
+    "criterion": "Resets the chaser to its start position and patrol state after player death or restart.",
+    "score": 17,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Trigger death and restart while the chaser is chasing, then confirm it returns to its initial transform and resumes patrol behavior. Confirm it is not moving immediately after respawn unless patrol movement begins normally.",
+      "assets": [],
+      "explanation": "Enemy resets prevent inconsistent difficulty and ensure retries start from a known state."
+    }
+  },
+  {
+    "criterion": "Maintains continuous motion when switching between patrol and chase, without position snaps or sudden speed jumps.",
+    "score": 17,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Move the player across the detection boundary repeatedly and observe the chaser position and velocity remain continuous. Confirm it resumes patrol from its current location after losing detection.",
+      "assets": [],
+      "explanation": "Smooth transitions avoid visual glitches and prevent unfair hits caused by abrupt movement changes."
+    }
+  },
+  {
+    "criterion": "Includes exported patrol_speed and chase_speed, and chase_speed is greater than patrol_speed at runtime.",
+    "score": 15,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Inspect the chaser in the editor to confirm both exported properties exist. Run and compare movement speeds in patrol versus chase, confirming chase is faster.",
+      "assets": [],
+      "explanation": "Separate tunables support balancing and ensure the enemy communicates intent through movement pacing."
+    }
+  },
+  {
+    "criterion": "Patrols between two points relative to its start position, using an exported patrol_range editable per instance.",
+    "score": 18,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Move the chaser node in the editor and confirm its patrol endpoints shift with the new start position. Confirm patrol_range appears in the Inspector and changes the endpoint distance.",
+      "assets": [],
+      "explanation": "Relative patrol endpoints make instances reusable across levels without hardcoded world coordinates."
+    }
+  },
+  {
+    "criterion": "Runs the project without runtime errors or enemy-related warnings during gameplay and enemy interactions.",
+    "score": 20,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Run the game, play through each level, and trigger patrol, chase, shooting cooldown, bouncer jumps, collisions, and respawns. Confirm the debugger shows no errors and no new warnings tied to enemy scripts or nodes.",
+      "assets": [],"explanation": "Stability checks catch missing references and signal issues that would break gameplay or shipping builds."
+    }
+  }
+]

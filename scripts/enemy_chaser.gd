@@ -1,13 +1,16 @@
 extends CharacterBody2D
 
 @export var detection_radius: float = 200.0
-@export var speed: float = 80.0
+@export var chase_speed: float = 80.0
+@export var patrol_speed: float = 40.0
+@export var patrol_range: float = 100.0
 
 const GRAVITY = 980.0
 
 var _player_in_range := false
 var _target: Node2D = null
 var _start_position: Vector2
+var _patrol_direction := 1.0
 
 func _ready() -> void:
 	add_to_group("chasers")
@@ -21,6 +24,7 @@ func reset_position() -> void:
 	velocity = Vector2.ZERO
 	_player_in_range = false
 	_target = null
+	_patrol_direction = 1.0
 
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():
@@ -32,11 +36,25 @@ func _physics_process(delta: float) -> void:
 			(direction < 0.0 and not $EdgeDetectorLeft.is_colliding()):
 			velocity.x = 0.0
 		else:
-			velocity.x = direction * speed
+			velocity.x = direction * chase_speed
 	else:
-		velocity.x = 0.0
+		_patrol(delta)
 
 	move_and_slide()
+
+func _patrol(_delta: float) -> void:
+	var offset = global_position.x - _start_position.x
+	if offset >= patrol_range:
+		_patrol_direction = -1.0
+	elif offset <= -patrol_range:
+		_patrol_direction = 1.0
+
+	if (_patrol_direction > 0.0 and not $EdgeDetectorRight.is_colliding()) or \
+		(_patrol_direction < 0.0 and not $EdgeDetectorLeft.is_colliding()):
+		velocity.x = 0.0
+		_patrol_direction *= -1.0
+	else:
+		velocity.x = _patrol_direction * patrol_speed
 
 func _on_detection_area_body_entered(body: Node2D) -> void:
 	if body is CharacterBody2D and body.is_in_group("player"):
