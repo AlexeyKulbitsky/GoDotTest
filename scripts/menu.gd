@@ -28,6 +28,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _on_play_pressed() -> void:
 	GameManager.reset_score()
+	GameManager.reset_lives()
 	get_tree().change_scene_to_file(GAMEPLAY_SCENE)
 
 func _on_resume_pressed() -> void:
@@ -35,6 +36,7 @@ func _on_resume_pressed() -> void:
 
 func _on_restart_pressed() -> void:
 	GameManager.reset_score()
+	GameManager.reset_lives()
 	get_tree().paused = false
 	get_tree().reload_current_scene()
 

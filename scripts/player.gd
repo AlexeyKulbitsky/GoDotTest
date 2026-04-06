@@ -72,6 +72,10 @@ func on_enemy_contact(enemy: Node2D) -> void:
 func die() -> void:
 	if is_powered_up:
 		return
+	GameManager.lose_life()
+	if GameManager.get_lives() <= 0:
+		get_tree().call_deferred("change_scene_to_file", "res://scenes/game_over.tscn")
+		return
 	var checkpoint_script = load("res://scripts/checkpoint.gd")
 	if checkpoint_script.current_checkpoint:
 		global_position = checkpoint_script.current_checkpoint.global_position

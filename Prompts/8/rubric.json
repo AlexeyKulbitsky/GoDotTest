@@ -1,0 +1,131 @@
+[
+  {
+    "criterion": "Demonstrates full lives flow: 3 lives decrement to 0, shows game over with final score, Play Again loads level 1 with 3 lives and 0 score.",
+    "score": 20,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Play through deaths until lives reach 0, confirm game over shows final score, then click Play Again and verify level 1 starts with 3 lives and 0 score.",
+      "assets": [],
+      "explanation": "This validates the primary user journey and ensures state resets and scene transitions work together without regressions."
+    }
+  },
+  {
+    "criterion": "Resets lives to 3 when using Pause Restart and when using Game Over Play Again.",
+    "score": 17,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "From a non full lives state, click Pause Restart and verify lives show 3, then reach game over and click Play Again and verify lives show 3.",
+      "assets": [],
+      "explanation": "Consistent reset behavior prevents soft locks and ensures a predictable new session start across entry points."
+    }
+  },
+  {
+    "criterion": "Maintains the same lives value when transitioning from level 1 to level 2, and shows it correctly on the HUD immediately.",
+    "score": 18,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Enter level 2 with a non max lives value, then confirm the HUD in level 2 matches the pre transition lives without delay.",
+      "assets": [],
+      "explanation": "Lives persistence is a core requirement and must match score persistence to avoid player confusion and state bugs."
+    }
+  },
+  {
+    "criterion": "Uses ui.tscn and ui.gd for the lives display, and keeps the existing score label functional.",
+    "score": 14,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Inspect the scene tree to confirm lives nodes are under ui.tscn, then run the game and confirm the score label still updates.",
+      "assets": [],
+      "explanation": "This enforces the integration constraint and prevents duplicated UI systems that are harder to maintain."
+    }
+  },
+  {
+    "criterion": "Displays lives as a top right row of simple shapes that matches the game manager lives value after any change.",
+    "score": 17,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Lose and restore lives, then compare the number of visible shapes to the game manager lives value each time.",
+      "assets": [],
+      "explanation": "The HUD is the player facing contract for lives, so it must be accurate and responsive to state changes."
+    }
+  },
+  {
+    "criterion": "Restores 1 life on power up when below 3, and performs a silent no op at 3 lives without errors.",
+    "score": 17,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Collect a power up at 2 lives and confirm lives become 3, then collect at 3 lives and confirm no change and no console errors.",
+      "assets": [],
+      "explanation": "This ensures the collectible adds strategic value while remaining safe and predictable at boundary conditions."
+    }
+  },
+  {
+    "criterion": "Closes the application when clicking Exit on the game over screen without errors.",
+    "score": 13,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Reach the game over screen, click Exit, and confirm the process terminates cleanly with no error output.",
+      "assets": [],
+      "explanation": "Exit must be reliable to meet user expectations and avoid platform specific shutdown issues."
+    }
+  },
+  {
+    "criterion": "Resets score to 0 and lives to 3 in the game manager when Play Again loads level 1.",
+    "score": 19,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "From game over, click Play Again, then verify game manager score is 0 and lives is 3 and level 1 is loaded.",
+      "assets": [],
+      "explanation": "This prevents state leakage between runs and ensures a consistent restart experience."
+    }
+  },
+  {"criterion": "Includes game_over.tscn with game_over.gd that shows a game over message and the final score, and is reachable only after lives reach 0.",
+    "score": 16,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Verify the scene and script exist, then run to game over and confirm message and score, and confirm it cannot be opened from the main menu.",
+      "assets": [],
+      "explanation": "A dedicated end screen is required for clear feedback and correct session flow control."
+    }
+  },
+  {
+    "criterion": "Transitions to the game over screen when lives reach 0, and does not respawn the player at 0 or below lives.",
+    "score": 20,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Reduce lives to 1, trigger a death, and confirm the game over scene loads and the player does not reappear in the level.",
+      "assets": [],
+      "explanation": "This is the core fail state and must prevent invalid gameplay states like negative lives or unintended respawns."
+    }
+  },
+  {
+    "criterion": "Deducts 1 life per death and respawns at the last checkpoint when lives remain above 0.",
+    "score": 20,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Trigger each death type with lives above 1, then confirm lives decrement by 1 and the player respawns at the expected checkpoint.",
+      "assets": [],
+      "explanation": "This ensures consistent penalty and preserves the existing respawn design while integrating the new lives system."
+    }
+  },
+  {
+    "criterion": "Tracks lives only in the game manager and provides methods to lose life, restore life, and get current lives.",
+    "score": 18,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Search scripts for local lives variables, then inspect the game manager API to confirm it exposes lose, restore, and get methods.",
+      "assets": [],
+      "explanation": "Centralizing state prevents desync across scenes and makes persistence and UI updates reliable."
+    }
+  },
+  {
+    "criterion": "Runs the project without errors, missing references, or signal warnings during normal gameplay.",
+    "score": 20,
+    "forms": {
+      "type": "In-application check",
+      "assessment_process": "Open and run the project, play through deaths, power ups, pause restart, and game over, and confirm the debugger shows no errors or warnings.",
+      "assets": [],
+      "explanation": "Stability is a baseline professional requirement and catches broken references and signal wiring issues common in scene changes."
+    }
+  }
+]
