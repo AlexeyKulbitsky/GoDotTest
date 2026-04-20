@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://2qjlobdw5f83"]
+[gd_scene load_steps=20 format=3 uid="uid://2qjlobdw5f83"]
 
 [ext_resource type="Script" uid="uid://cmqx2bu4jf4xl" path="res://scripts/platformer.gd" id="1_xxtnn"]
 [ext_resource type="PackedScene" uid="uid://bfbe1o8sguw0y" path="res://scenes/ui.tscn" id="2_85uu4"]
@@ -15,6 +15,9 @@
 [ext_resource type="PackedScene" path="res://scenes/checkpoint.tscn" id="13_ckpt"]
 [ext_resource type="PackedScene" path="res://scenes/level_exit.tscn" id="14_exit"]
 [ext_resource type="PackedScene" path="res://scenes/enemy_bouncer.tscn" id="15_bouncer"]
+[ext_resource type="PackedScene" path="res://hazard_spike.tscn" id="16_spike"]
+[ext_resource type="PackedScene" path="res://hazard_falling_block.tscn" id="17_fblock"]
+[ext_resource type="PackedScene" path="res://hazard_crusher.tscn" id="18_crusher"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j2uy2"]
 size = Vector2(1083, 150)
@@ -109,3 +112,31 @@ next_scene = "res://scenes/level_2.tscn"
 
 [node name="EnemyBouncer" parent="." instance=ExtResource("15_bouncer")]
 position = Vector2(300, 570)
+
+[node name="SpikeTrap1" parent="." instance=ExtResource("16_spike")]
+position = Vector2(450, 583)
+active_duration = 1.5
+inactive_duration = 2.0
+
+[node name="SpikeTrap2" parent="." instance=ExtResource("16_spike")]
+position = Vector2(700, 583)
+active_duration = 2.0
+inactive_duration = 1.5
+
+[node name="SpikeTrap3" parent="." instance=ExtResource("16_spike")]
+position = Vector2(900, 583)
+active_duration = 1.0
+inactive_duration = 2.5
+
+[node name="FallingBlock1" parent="." instance=ExtResource("17_fblock")]
+position = Vector2(575, 350)
+fall_delay = 0.4
+
+[node name="FallingBlock2" parent="." instance=ExtResource("17_fblock")]
+position = Vector2(1044, 220)
+fall_delay = 0.6
+
+[node name="Crusher1" parent="." instance=ExtResource("18_crusher")]
+position = Vector2(350, -500)
+travel_distance = 120.0
+speed = 80.0

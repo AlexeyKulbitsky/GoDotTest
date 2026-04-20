@@ -69,8 +69,8 @@ func on_enemy_contact(enemy: Node2D) -> void:
 	else:
 		die()
 
-func die() -> void:
-	if is_powered_up:
+func die(force: bool = false) -> void:
+	if is_powered_up and not force:
 		return
 	GameManager.lose_life()
 	if GameManager.get_lives() <= 0:
@@ -87,6 +87,10 @@ func die() -> void:
 		chaser.reset_position()
 	for bouncer in get_tree().get_nodes_in_group("bouncers"):
 		bouncer.reset_position()
+	for spike in get_tree().get_nodes_in_group("spike_traps"):
+		spike.reset_cycle()
+	for block in get_tree().get_nodes_in_group("falling_blocks"):
+		block.reset_position()
 
 func apply_catapult_launch(force: float) -> void:
 	velocity.y = force
